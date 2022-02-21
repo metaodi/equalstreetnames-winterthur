@@ -1,137 +1,137 @@
-# EqualStreetNames City Template
+# Welcome to EqualStreetNames Winterthur :heart: 🤍
 
-If you want to replicate the EqualStreetNames project in your city, here is the how-to !
+# How to
+The aim of this section is to provide a guideline on how to collect, store and link the required data so it can be used by equalstreetnames.
 
-## Setup
+Basic steps are:
+1. Identifiy a Street named after a Person
+2. Find the Wikidata-Item of this street
+3. Find the Wikidata-Item of the Person
+4. Link the Street-Wikidata-Item with the Person-Wikidata-Item
 
-1. Click on the "Use this template" button above
+See following sections to find out more about the work that can be done.
 
-1. Update the *Overpass* queries :
+## Identify Streets named after a Person
+1. Find a Street on the TODO list (link currently missing) and try to find the person on Wikidata.
 
-    `overpass/relation-full-json` (*example for Brussels, Belgium*)
+## Find the Wikidata-Item of this street
 
-    ```diff
-    - ( area["admin_level"=""]["wikidata"=""]; )->.a;
-    + ( area["admin_level"="8"]["wikidata"="Q12994"]; )->.a;
-    ```
+* Search at [Wikidata.org](https://www.wikidata.org)
 
-    `overpass/way-full-json` (*example for Brussels, Belgium*)
+Example: [Emilie-Kempin-Spyri-Weg](https://www.wikidata.org/wiki/Q27329833)
 
-    ```diff
-    - ( area["admin_level"=""]["wikidata"=""]; )->.a;
-    + ( area["admin_level"="8"]["wikidata"="Q12994"]; )->.a;
-    ```
+## Find the Wikidata-Item of the Person
 
-1. Find the *OpenStreetMap* relation of your city (example, [Brussels, Belgium](https://www.openstreetmap.org/relation/54094))
+This is the most tricky part...
+1. Check this PDF of winterthur-glossar.ch: https://www.winterthur-glossar.ch/upload/documents/2018/03/05/2481.pdf
+2. Search at [Wikidata.org](https://www.wikidata.org) for this Person.
+3. Note the Q-Number of the Person
 
-1. Update `config.php` configuration file
+Example: Q119636 for [Emilie Kempin-Spyri](https://www.wikidata.org/wiki/Q119636)
 
-    1. **REQUIRED:** Add relation identifier (*example for Brussels, Belgium*).
+## Link the Street-Wikidata-Item with the Person-Wikidata-Item
+1. Return to the Wikidata-Entry of the street
+2. Click "add statement" (At the End of all Statements)
+3. Choose as Property: "named after"
+4. Add as the value the Q-Number of the person and choose the Name as the value
+5. Click "add reference"
+6. Choose as property: "stated in" and as value "Winterthur Glossar" (Q60432730)
+7. Click "add" (to add an additional reference)
+8. Choose as property: "retrieved" and as value the Date of Today eg. "13.05.2006"
+9. Click "add" (to add an additional reference)
+10. Choose as property: "reference URL" and as value the URL of the Winterthur Glossar with information about the person
+11. Click "publish"
 
-        ```diff
-        - 'relationId' => 0,
-        + 'relationId' => 54094,
-        ```
+Done :muscle:
 
-    1. *Optional:* Choose languages in which you want to extract Wiki informations with `languages` (English `en` by default).
+# Advanced Section
 
-    1. *Optional:* You can exclude ways or relations by adding the ways identifier in `exclude.way` and adding the relations identifier in `exclude.relation`.
+## Identify Wikidata entries of a person
+The named streets can be categorised by:
+* Named after a person with an existing Wikidata entry.
+  * Example: [Else Züblin-Spiller](https://www.wikidata.org/wiki/Q1333744)
+* Named after a person without a Wikidata entry. Usually citizens of Zurich. eg.:
+  * Laura-Hezner-Weg
+* Named after a historical person, not 100% sure if they exist. eg.:
+  * Flobotstrasse
+  * Woloweg
+  * Wibichstrasse
+* Named after a certain person's occupation, because they were working at this street eg.:
+  * Eisengasse
+  * Drehergasse
+  * Feilengasse
+* Named after a goddess. eg.:
+  * Freyastrasse
+  * Florastrasse
+  * Fortunagasse
 
-    1. *Optional:* You can manually assign a gender to a way or a relation by adding the ways identifier and its gender in `gender.way` and adding the relations identifier and its gender in `gender.relation`. You can also use `data.csv` file to assign gender (and details) to a way or relation (see below).
+## Add Information to Wikidata
+### Basic Wikidata Entry
+To make the map of equalstreetnames work, a wikidata entry needs following:
+* `label` (in English)
+* `description` (in English)
+* Statements:
+  * `instance of` (P31) = `human` (Q5)
+  * `sex or gender` (P21) with following possible values according to Propertydefinition:
+    * `femal` (Q6581072)
+    * `intersex` (Q1097630)
+    * `male` (Q6581097)
+    * `transgender female` (Q1052281)
+    * `transgender male` (Q2449503)
 
-    1. *Optional:* You can change the Wikidata instances that will be counted as "a person" with `instances`.
+### Advanced Wikidata Entry
+If you know more about a Person and you feel like to share this with Wikidata. Here are some suggestions what you could add additionaly:
+* `label` (in German)
+* `description` (in German)
+* Statements:
+  * `image` (P18)
+  * `date of birth` (P569)
+  * `place of birth` (P19)
+  * `date of death` (P570)
+  * `place of death` (P20)
+* Identifiers:
+  * `HDS ID` (P902). Link to the HLS-article-Nr of this person. Example: [Annemarie Schwarzenbach](https://www.wikidata.org/wiki/Q123368)
 
-1. You can link information to a relation or way using a `data.csv` CSV file (see [Brussels, Belgium CSV file](https://github.com/EqualStreetNames/equalstreetnames-brussels/blob/master/data.csv))
+### :warning: Declare Sources on Wikidata :warning:
 
-    Structure:
+If you add Information to Wikidata, don't forget to cite your source.
 
-    - `type`: *OpenStreetMap* object type (relation/way)
-    - `id`: *OpenStreetMap* object identifier
-    - `name`: *OpenStreetMap* street name
-    - `gender`: Gender
-    - `person`: Name of the person
-    - `description`: Description of the person
+#### Information from HLS to Wikidata
+Adding Information from the HLS to a Statement
+* click `add reference` 
+* choose:
+  * `stated in` = `Historical Dictionary of Switzerland` (Q642074)
+  * `retrieved` = Date of Day you entered the Information (Usualy Today)
+  * `reference URL` = URL to the article like https://hls-dhs-dss.ch/de/articles/009370/2012-09-11/
+* Example: `place of birth` of [Erika Rikli](https://www.wikidata.org/wiki/Q96489752)
 
-1. Update the HTML files (replace `MyCity` by the name of your city in **all** `index.html` files, add languages, ...).
+### Wikipedia article
 
-    (*example for Brussels, Belgium*)
+If there is no existing Wikipedia Articel, the "Historische Lexikon der Schweiz (HLS)" alows to copy there complete Inofmration to Wikipedia. See: [Nutzungshinweise](https://hls-dhs-dss.ch/de/about/usage)
 
-    ```diff
-    - <title>EqualStreetNames.MyCity</title>
-    + <title>EqualStreetNames.Brussels</title>
+### :warning: Declare Sources on Wikipedia :warning:
 
-    - <div id="loader-title">EqualStreetNames.MyCity</div>
-    + <div id="loader-title">EqualStreetNames.Brussels</div>
+If you add Information to Wikipedia, don't forget to cite your source.
+* If you create an Article completly baed on HLS add `{{HLS-Text|202356100}}` or even better `{{HLS-Text|Artikel=026515/2011-12-28|Version=190573009|Autor=Stefanie Spirig-Bülte}}` according [Vorlage:HLS-Text](https://de.wikipedia.org/wiki/Vorlage:HLS-Text)
+* If only some Texts are form HLS, add a Weblink according [Vorlage:HLS](https://de.wikipedia.org/wiki/Vorlage:HLS)
 
-    - <a class="navbar-brand" href="#">EqualStreetNames.MyCity</a>
-    + <a class="navbar-brand" href="#">EqualStreetNames.Brussels</a>
-    ```
+# Data
 
-1. Optionally you can change the style using `data-style` attribute, it can be a Mapbox pre-defined style (see [API Reference](https://docs.mapbox.com/mapbox-gl-js/api/#map)) or your custom style (see [Style Specification](https://docs.mapbox.com/mapbox-gl-js/style-spec/)).
+## Winterthur Glossar
 
-    ```diff
-    - <div id="map"></div>;
-    + <div id="map" data-style="mapbox://styles/mapbox/dark-v10"></div>;
-    ```
+There is a lot of information about Winterthur on [Winterthur Glossar](https://www.winterthur-glossar.ch).
+
+## Historisches Lexikon der Schweiz (HLS)
+More about [HLS on Wikipedia](https://de.wikipedia.org/wiki/Historisches_Lexikon_der_Schweiz).
+
+[HLS](https://hls-dhs-dss.ch) is published under [Creative Commons BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). See also Nutzungsbedingungen of HLS: [Urheberrechte und Verwendung der HLS-Inhalte](https://hls-dhs-dss.ch/de/about/usage#HUrheberrechteundVerwendungderHLS-Inhalte)
+
+You may use HLS to add Information on Wikidata / Wikipedia and even create a Wikipedia-article entirely based on an HLS-article. 
+:warning: If you do so, Cite all Informations! See section on How to.
 
 
-## Integrate your city to the project
 
-1. Let us know you're ready to add a new city to the project by [opening a new issue](https://github.com/EqualStreetNames/equalstreetnames/issues).
-
-1. You have 2 options:
-
-    1. Transfer your repository to the EqualStreetNames organization.
-
-       If you choose to do so, you stay of course "owner" of the repository, we'll create a team for you (and anyone you want) that will have admin rights on your repository.  
-       We'll help you maintain and manage your repository.  
-       We'll also setup an automated data update (once a month) and automated deployment of the website (if you need it). If you want more regular updates, you will need to create an `ACCESS_TOKEN` in your repository secrets with your [GitHub access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
-
-       For the automated deployment, you will need to create a `MAPBOX_TOKEN` in your repository secrets (see [Mapbox documentation](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/)).
-
-    1. Keep the ownership of your repository.
-
-       We'll just link your repository as sub-module in the [`cities` folder](https://github.com/EqualStreetNames/equalstreetnames/tree/master/cities).  
-       You'll have to maintain your repository, update the data, and the sub-module yourself.
-
-## Run your city locally
-
-1. Clone the main repository
-
-    ```cmd
-    git clone https://github.com/EqualStreetNames/equalstreetnames.git
-    ```
-
-1. Copy/Link your repository in the `cities` folder of the main repository (`cities/my-country/my-city`).
-
-1. Run the data update (in the `process` folder of the main repository)
-
-    ```cmd
-    cd process/
-    composer install
-    composer run update-data -- --city=my-country/my-city
-    ```
-
-1. Run the website locally (in the root folder of the main repository)
-
-    1. Add your city in the `"scripts"` section of the `website/package.json` file
-
-        ```diff
-        + "build:my-country:my-city": "node build.js -c my-country/my-city"
-        ```
-
-    1. Create a [Mapbox token](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/)
-
-    1. Create a file named `.env` in the `website` directory of the project
-
-    1. Add the following line to the `.env` file: `MAPBOX_TOKEN=[your Mapbox token]` replacing `[your Mapbox token]` with the token you created
-
-    1. Install JavaScript dependencies and run it (in the `website` folder of the main repository)
-
-        ```cmd
-        cd website/
-        npm install
-        npm run build:my-country:my-city -- --serve
-        ```
-
-1. Open <http://localhost:1234/>
+# ToDo
+- [ ] Add Wikidata entries for all streets in Winterthur
+- [ ] Check the copyright of Winterthur Glossar
+- [ ] Create a TODO app for Winterthur (similar to the one for Zurich)
