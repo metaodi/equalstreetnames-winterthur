@@ -12,7 +12,7 @@ Basic steps are:
 See following sections to find out more about the work that can be done.
 
 ## Identify Streets named after a Person
-1. Find a Street on the TODO list (link currently missing) and try to find the person on Wikidata.
+1. Find a street on the [TODO list of Winterthur](https://equalstreetnames-todo.herokuapp.com?city=winterthur) and try to find the person on Wikidata.
 
 ## Find the Wikidata-Item of this street
 
@@ -132,6 +132,6 @@ You may use HLS to add Information on Wikidata / Wikipedia and even create a Wik
 
 
 # ToDo
-- [ ] Add Wikidata entries for all streets in Winterthur
+- [ ] Add Wikidata entries for all streets in Winterthur, use GWR as source? see https://qa.poole.ch/addresses/ch/
 - [ ] Check the copyright of Winterthur Glossar
-- [ ] Create a TODO app for Winterthur (similar to the one for Zurich)
+- [x] Create a TODO app for Winterthur (similar to the one for Zurich)
